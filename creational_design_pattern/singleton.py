@@ -33,9 +33,29 @@ class LazySingleton():
         
     @staticmethod
     def getInstance():
-        if LazySingleton.__instance is not None:
+        if LazySingleton.__instance is None:
             LazySingleton() 
         return LazySingleton.__instance
-obj = LazySingleton.getInstance()
-obj2=LazySingleton.getInstance()
 
+
+# Several ways to make Singleton thread safe
+# we can prevent multiple threads from creating multiple instances
+# 1. Synchronised method 
+# threading.Lock() is a mutex (mutual exclusion lock).
+# It is a key that allows only one thread at a time to enter a critical section of code.
+import threading
+class Singleton:
+    __instance =None
+    __lock=threading.Lock()
+
+    def __init__(self):
+        if Singleton.__instance is not None:
+            raise Exception("This class is singleton")
+        Singleton.__instance=self
+
+    @staticmethod
+    def getInstance():
+        with Singleton.__lock:
+            if Singleton.__instance is not None:
+                Singleton()
+            return Singleton.__instance

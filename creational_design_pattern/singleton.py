@@ -57,27 +57,41 @@ class LazySingleton():
 #     @staticmethod
 #     def getInstance():
 #         with Singleton.__lock:
-#             if Singleton.__instance is  None:
+#             if Singleton.__instance is None:
 #                 Singleton()
 #             return Singleton.__instance
 
 
 #Double checking method
-import threading 
-class Singleton:
-    __instance=None
-    _lock=threading.Lock()
-    def __init__(self):
-        if Singleton.__instance is not None:
-            raise Exception("this is singleton") 
-        Singleton.__instance=self
-    @staticmethod
-    def getInstance():
-        if Singleton.__instance is None:
-            with Singleton._lock:
-                if Singleton.__instance is None:
-                    Singleton()
-        return Singleton.__instance
-    
+# import threading 
+# class Singleton:
+#     __instance=None
+#     _lock=threading.Lock()
+#     def __init__(self):
+#         if Singleton.__instance is not None:
+#             raise Exception("this is singleton") 
+#         Singleton.__instance=self
+#     @staticmethod
+#     def getInstance():
+#         if Singleton.__instance is None:
+#             with Singleton._lock:
+#                 if Singleton.__instance is None:
+#                     Singleton()
+#         return Singleton.__instance
 
-print(Singleton.getInstance())
+
+#Bill Pugh Singleton (Best Practice for Lazy Loading)
+class Singleton:
+    def __init__(self):
+        if hasattr(Singleton,'_created'):
+            raise Exception("This class is singleton")
+
+def getInstance():
+    if not hasattr(getInstance, "_instance"):
+        getInstance._instance = Singleton()
+    return getInstance._instance
+
+
+print(getInstance())
+
+

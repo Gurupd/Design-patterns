@@ -71,6 +71,7 @@ class LazySingleton():
 #         if Singleton.__instance is not None:
 #             raise Exception("this is singleton") 
 #         Singleton.__instance=self
+
 #     @staticmethod
 #     def getInstance():
 #         if Singleton.__instance is None:
